@@ -442,7 +442,11 @@ void londing_eeprom_data(void) {
 }
 
 /* qmk process record */
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
+    if (!process_record_user(keycode, record)) {
+        return false;
+    }
+
     no_act_time = 0;
     switch (keycode) {
         case RF_DFU:
@@ -697,8 +701,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 
-bool rgb_matrix_indicators_user(void)
+bool rgb_matrix_indicators_kb(void)
 {
+    if (!rgb_matrix_indicators_user()) {
+        return false;
+    }
+
     if(f_bat_num_show) {
         num_led_show();
     }
